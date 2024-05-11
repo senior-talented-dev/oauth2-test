@@ -15,7 +15,6 @@ export async function GET(_, { params }) {
       { status: HttpStatusCode.NotFound }
     );
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: error },
       { status: HttpStatusCode.BadRequest }
