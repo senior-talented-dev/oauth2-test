@@ -29,17 +29,11 @@ export async function PUT(req, { params }) {
     const user = await User.findOne(params);
     if (user) {
       const body = await req.json();
-      if (body.name) {
-        user.name = body.name;
-      }
-      if (body.price) {
-        user.name = body.price;
-      }
-      if (body.description) {
-        user.name = body.description;
+      for (const key in body) {
+        user[key] = body[key];
       }
       user.save();
-      return NextResponse.json({ user });
+      return NextResponse.json(user);
     }
     return NextResponse.json(
       { message: `User ${params.id} not found` },

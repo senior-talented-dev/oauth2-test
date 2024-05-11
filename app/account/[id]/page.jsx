@@ -12,6 +12,7 @@ export default function Example({ params }) {
     (async () => {
       try {
         setLoading(true);
+        console.log(user);
         const res = await axios.put(`/api/user/${params.id}`, user);
         if (!unmount) {
           setUser(res.data);
