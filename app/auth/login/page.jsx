@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
 import saveUser from "@/lib/saveUser";
 
