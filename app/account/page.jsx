@@ -14,8 +14,13 @@ export default function Accounts() {
     (async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/users/${search}`);
-        setUsers(res.data);
+        if (!search) {
+          const res = await axios.get(`/api/users`);
+          setUsers(res.data);
+        } else {
+          const res = await axios.get(`/api/users/${search}`);
+          setUsers(res.data);
+        }
       } catch (err) {
         console.log(err);
       } finally {
