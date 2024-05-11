@@ -1,11 +1,12 @@
 import Link from "next/link";
-import LoginDialog from "../components/LoginDialog";
 
-export default function Header() {
+export default function Header({ logout, isLoggedin }) {
   return (
     <nav className="flex items-center justify-between flex-wrap bg-green-700 p-6 w-screen">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
-        <span className="font-semibold text-xl tracking-tight">Landing</span>
+        <span className="font-semibold text-xl tracking-tight">
+          OAuth2 Test
+        </span>
       </div>
       <div className="block lg:hidden">
         <button className="flex items-center px-3 py-2 border rounded text-green-200 border-green-400 hover:text-white hover:border-white">
@@ -21,35 +22,47 @@ export default function Header() {
       </div>
       <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div className="text-sm lg:flex-grow">
-          <Link
-            href="/home"
-            className="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4"
-          >
-            Home
-          </Link>
-          <Link
-            href="/account"
-            className="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4"
-          >
-            Account
-          </Link>
-          <Link
-            href="/activation"
-            className="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white"
-          >
-            Activation
-          </Link>
+          {isLoggedin && (
+            <>
+              <Link
+                href="/home"
+                className="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4"
+              >
+                Home
+              </Link>
+              <Link
+                href="/account"
+                className="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4"
+              >
+                Account
+              </Link>
+              <Link
+                href="/activation"
+                className="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white"
+              >
+                Activation
+              </Link>
+            </>
+          )}
         </div>
         <div>
-          <Link
-            href="/auth/login"
-            className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-green-500 hover:bg-white mt-4 lg:mt-0"
-          >
-            Login
-          </Link>
+          {isLoggedin ? (
+            <button
+              onClick={logout}
+              className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-green-500 hover:bg-white mt-4 lg:mt-0"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/auth/login"
+              className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-green-500 hover:bg-white mt-4 lg:mt-0"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
-      <LoginDialog />
     </nav>
   );
 }

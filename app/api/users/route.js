@@ -1,6 +1,6 @@
 import { HttpStatusCode } from "axios";
 import connectMongo from "@/lib/dbConnect";
-import Product from "@/lib/models/product";
+import User from "@/lib/models/user";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -8,16 +8,17 @@ export async function POST(req) {
     await connectMongo();
     const body = await req.json();
     if (body.name) {
-      const product = await Product.create(body);
+      const user = await User.create(body);
       return NextResponse.json(
-        { product, message: "Your product has been created" },
+        { user, message: "Your user has been created" },
         { status: HttpStatusCode.Created }
       );
+    } else {
+      return NextResponse.json(
+        { message: "User name is missing" },
+        { status: HttpStatusCode.BadRequest }
+      );
     }
-    return NextResponse.json(
-      { message: "Product name is missing" },
-      { status: HttpStatusCode.BadRequest }
-    );
   } catch (error) {
     return NextResponse.json(
       { message: error },
@@ -29,10 +30,9 @@ export async function POST(req) {
 export async function GET() {
   try {
     await connectMongo();
-    const products = await Product.find();
-    return NextResponse.json({ data: products });
+    const users = await User.find();
+    return NextResponse.json(users);
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ error });
   }
 }

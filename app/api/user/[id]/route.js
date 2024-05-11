@@ -1,20 +1,21 @@
 import { NextResponse } from "next/server";
 import connectMongo from "@/lib/dbConnect";
-import Product from "@/lib/models/product";
+import User from "@/lib/models/user";
 import { HttpStatusCode } from "axios";
 
 export async function GET(_, { params }) {
   try {
     await connectMongo();
-    const product = await Product.findById(params.id);
-    if (product) {
-      return NextResponse.json({ product });
+    const user = await User.findOne({ id: params.id });
+    if (user) {
+      return NextResponse.json(user);
     }
     return NextResponse.json(
-      { message: `Product ${params.id} not found` },
+      { message: `User ${params.id} not found` },
       { status: HttpStatusCode.NotFound }
     );
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { message: error },
       { status: HttpStatusCode.BadRequest }
@@ -25,23 +26,23 @@ export async function GET(_, { params }) {
 export async function PUT(req, { params }) {
   try {
     await connectMongo();
-    const product = await Product.findById(params.id);
-    if (product) {
+    const user = await User.findOne(params);
+    if (user) {
       const body = await req.json();
       if (body.name) {
-        product.name = body.name;
+        user.name = body.name;
       }
       if (body.price) {
-        product.name = body.price;
+        user.name = body.price;
       }
       if (body.description) {
-        product.name = body.description;
+        user.name = body.description;
       }
-      product.save();
-      return NextResponse.json({ product });
+      user.save();
+      return NextResponse.json({ user });
     }
     return NextResponse.json(
-      { message: `Product ${params.id} not found` },
+      { message: `User ${params.id} not found` },
       { status: HttpStatusCode.NotFound }
     );
   } catch (error) {
@@ -55,15 +56,15 @@ export async function PUT(req, { params }) {
 export async function DELETE(_, { params }) {
   try {
     await connectMongo();
-    const product = await Product.findById(params.id);
-    if (product) {
-      await Product.findByIdAndDelete(product._id);
+    const user = await User.findById(params.id);
+    if (user) {
+      await User.findByIdAndDelete(user._id);
       return NextResponse.json({
-        message: `Product ${params.id} has been deleted`,
+        message: `User ${params.id} has been deleted`,
       });
     }
     return NextResponse.json(
-      { message: `Product ${params.id} not found` },
+      { message: `User ${params.id} not found` },
       { status: HttpStatusCode.NotFound }
     );
   } catch (error) {
