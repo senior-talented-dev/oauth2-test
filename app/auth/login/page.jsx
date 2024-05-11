@@ -13,7 +13,7 @@ export default function Page() {
     const rootUrl = `https://accounts.google.com/o/oauth2/v2/auth`;
 
     const options = {
-      redirect_uri: "http://localhost:3000/auth/login",
+      redirect_uri: location.href,
       client_id:
         "238573560687-bsdqgcv4u2i6e33d61n8mkmkebd8rrhb.apps.googleusercontent.com",
       include_granted_scopes: true,
