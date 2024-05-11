@@ -11,9 +11,9 @@ export default function Page() {
 
   const getGoogleUrl = useCallback((from) => {
     const rootUrl = `https://accounts.google.com/o/oauth2/v2/auth`;
-
+    console.log({ location: location.href });
     const options = {
-      redirect_uri: location.href,
+      redirect_uri: `${location.origin}/auth/login`,
       client_id:
         "238573560687-bsdqgcv4u2i6e33d61n8mkmkebd8rrhb.apps.googleusercontent.com",
       include_granted_scopes: true,
